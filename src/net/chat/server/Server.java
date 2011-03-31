@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import net.PolicyFileServer;
 import net.StringListener;
 import net.StringSession;
 
@@ -64,23 +65,6 @@ public class Server implements Runnable {
     class StringHandler implements StringListener {
 
         public void received(StringSession session, String s) {
-//      if(model.isLoggedIn(session)){
-//        if(s.startsWith(Constants.commandPrefix)){
-//          int i = s.indexOf(Constants.separator);
-//          if(i > 0){
-//            processCommand(session, s.substring(1, i), s.substring(i + 1, s.length()));
-//          } else{
-//            processCommand(session, s.substring(1), null);
-//          }
-//        } else{
-//          String[] array = s.split(Constants.endHeader, 2);
-//          if(array.length == 2){
-//            model.processLine(session, array[0], array[1]);
-//          }
-//        }
-//      } else{
-//        model.processLogin(session, s);
-//      }
             if (s.startsWith(Constants.commandPrefix)) {
                 int i = s.indexOf(Constants.separator);
                 if (i > 0) {
@@ -93,6 +77,8 @@ public class Server implements Runnable {
                 if (array.length == 2) {
                     model.processLine(session, array[0], array[1]);
                 }
+            } else if (s.startsWith(PolicyFileServer.policyFileRequest)) {
+                session.send(PolicyFileServer.getPolicyFileText(port));
             } else {
                 model.processLogin(session, s.replaceAll(Constants.separator, ""));
             }
