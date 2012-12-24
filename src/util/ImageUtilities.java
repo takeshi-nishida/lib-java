@@ -19,18 +19,22 @@ public class ImageUtilities{
   }
   
   public static BufferedImage getResizedImage(BufferedImage source, double s){
+    return getResizedImage(source, s, AffineTransformOp.TYPE_BICUBIC);
+  }
+
+  public static BufferedImage getResizedImage(BufferedImage source, double s, int interpolationType){
     int rw = (int) (source.getWidth() * s), rh = (int) (source.getHeight() * s);
-    
+
     try{
       int resultType = source.getType();
       if(resultType == BufferedImage.TYPE_CUSTOM) resultType = BufferedImage.TYPE_3BYTE_BGR;
       BufferedImage result = new BufferedImage(rw, rh, resultType);
       AffineTransformOp atOp =
-          new AffineTransformOp(AffineTransform.getScaleInstance(s, s), AffineTransformOp.TYPE_BILINEAR);
+          new AffineTransformOp(AffineTransform.getScaleInstance(s, s), interpolationType);
       atOp.filter(source, result);
-      
+
       return result;
-    } catch(ImagingOpException e){ e.printStackTrace(); return null; }
+    } catch(ImagingOpException e){ return null; }
   }
   
   public static byte[] getImageBytes(BufferedImage image){

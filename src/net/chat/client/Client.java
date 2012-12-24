@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.chat.client;
 
-import net.chat.Constants;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -12,11 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import net.StringListener;
 import net.StringSession;
+import net.chat.Constants;
 
-/**
- *
- * @author tnishida
- */
 public class Client{
   private StringSession session;
   private boolean connected;

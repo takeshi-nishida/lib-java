@@ -124,6 +124,10 @@ public class StringSession extends Thread {
         sndThread.append(s + "\n");
     }
 
+    public boolean isSendEmpty(){
+        return sndThread.isEmpty();
+    }
+
     class SendThread extends Thread {
 
         private StringBuffer sendBuf;
@@ -156,6 +160,10 @@ public class StringSession extends Thread {
             }
         }
 
+        public boolean isEmpty(){
+            return isEmpty;
+        }
+
         /* Send thread implemantation */
         @Override
         public void run() {
@@ -179,6 +187,7 @@ public class StringSession extends Thread {
                     }
                     if (quit) {
                         cleanup();
+                        isEmpty = true;
                         break;
                     }
                     synchronized (sendLock) {
